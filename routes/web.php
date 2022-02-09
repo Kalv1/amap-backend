@@ -66,3 +66,18 @@ $router->group([
     $router->get('me', 'AuthController@me');
 
 });
+
+/*
+ * Route for Topic
+ */
+
+$router->get('topics', 'TopicController@getAll');
+
+/*
+ * Route for User
+ */
+
+$router->get('users/{id:[0-9]+}/avis[/]', 'UserController@getUserAvis');
+$router->get('users/{id:[0-9]+}/topics[/]', 'UserController@getUserTopics');
+$router->put('users/{id:[0-9]+}[/]', 'UserController@putUser');
+

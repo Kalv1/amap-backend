@@ -68,4 +68,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+    public function recettes(){
+        return
+            $this->belongsToMany('App\Models\Recette', 'avis','id_utilisateur', 'id_recette')
+                ->withPivot(['id','texte']);
+    }
 }
