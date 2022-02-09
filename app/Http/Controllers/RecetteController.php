@@ -22,4 +22,10 @@ class RecetteController extends Controller
         }
         return response()->json($res, 200);
     }
+
+    public function create(Request $req) : JsonResponse
+    {
+
+     return response()->json('');
+    }
 }

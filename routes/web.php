@@ -61,6 +61,7 @@ $router->group([
 
 ], function ($router) {
 
+    $router->post('recette', 'RecetteController@create');
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
     $router->get('me', 'AuthController@me');
