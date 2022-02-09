@@ -29,6 +29,7 @@ $router->post('auth/register', 'AuthController@register');
  */
 $router->get('contributeurs', 'ContributeurController@getAll');
 $router->get('contributeurs/suivis/{id:[0-9]+}', 'ContributeurController@getSuivis');
+$router->get('contributeur/{id:[0-9]+}', 'ContributeurController@getContributeur');
 $router->get('contributeur/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
 $router->put('contributeur/{idSuiveur:[0-9]+}/suivre/{idSuivi:[0-9]+}', 'ContributeurController@suivre');
 $router->put('contributeur/{idSuiveur:[0-9]+}/unfollow/{idSuivi:[0-9]+}', 'ContributeurController@nePlusSuivre');
