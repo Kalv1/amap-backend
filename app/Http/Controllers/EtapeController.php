@@ -22,18 +22,22 @@ class EtapeController extends Controller
     }
 
     public function addEtape(Request $req){
-        try {
-            $this->validate($req, [
-                'id_recette' => 'required',
-                'contenu' => 'required',
-                'temps' => 'required',
-                'numero' => 'required'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json(['message' => 'Modèle de donnée invalide certain champs sont manquant','error' => 404 ], 404);
+        $numetape = 1;
+        foreach ($req->input('etapes') as $etape) {
+            if($etape['desc'] != '' && $etape['desc'] != null){
+                $etapemodel = new Etape();
+                $etapemodel->numero = $numetape;
+                $numetape++;
+                $etapemodel->id_recette = $req->input('id_recette');
+                $etapemodel->contenu = $etape['desc'];
+                if($etape['temps'] == '') {
+                    $etapemodel->temps = 0;
+                } else {
+                    $etapemodel->temps = $etape['temps'];
+                }
+                $etapemodel->save();
+            }
         }
-        $etape = Etape::create($req->all());
-        $etape->save();
-        return response()->json(['message' => 'Modèle ajouté avec succès', 'model' => $etape]);
+        return response()->json(['message' => 'Etape ajouté avec succes']);
     }
 }

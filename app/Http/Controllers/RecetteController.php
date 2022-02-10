@@ -27,7 +27,6 @@ class RecetteController extends Controller
     public function create(Request $req) : JsonResponse
     {
         try {
-            var_dump($req);
             $this->validate($req, [
                 'id_createur' => 'required',
                 'titre' => 'required',
@@ -44,6 +43,7 @@ class RecetteController extends Controller
         }
         $recipe = Recette::create($req->all());
         $recipe->save();
-        return response()->json($recipe);
+
+        return response()->json(['id' => $recipe->id]);
     }
 }
