@@ -63,7 +63,17 @@ class ContributeurController extends Controller
                 $nbLikesMax = count($recette->likes);
             }
             unset($recette->likes);
-            $recette->nbLikes = $nb_likes;
+        }
+
+        //recherche des six dernières recettes
+        $sixDernieres = Recette::select('*')->orderBy('created_at', 'desc')->limit(6)->get();
+
+        foreach ($sixDernieres as $key => $value) {
+            foreach ($recettes as $k => $v) {
+                if ($v->id === $value->id) {
+                    unset($recettes[$k]);
+                }
+            }
         }
 
         //si au moins 1 like
@@ -80,6 +90,7 @@ class ContributeurController extends Controller
         }
 
         $result["recettes"] = $recettes;
+        $result["sixDernieres"] = $sixDernieres;
         return response()->json($result);
     }
 }
