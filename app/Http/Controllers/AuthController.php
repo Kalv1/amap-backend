@@ -21,7 +21,7 @@ class AuthController extends Controller
             $this->validate($request, [
                 'nom' => 'required',
                 'prenom' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:App\Models\User,email',
                 'password' => 'required'
             ]);
         } catch (ValidationException $e) {

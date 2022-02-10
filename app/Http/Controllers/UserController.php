@@ -11,6 +11,24 @@ use Laravel\Lumen\Routing\Controller;
 
 class UserController extends Controller
 {
+    public function getUsers(): JsonResponse
+    {
+        return response()->json(User::all());
+    }
+
+    public function getUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => "Utilisateur introuvable"], 404);
+        }
+
+        return response()->json($user, 200);
+
+    }
+
     public function getUserAvis($id): JsonResponse
     {
         try {
@@ -47,23 +65,42 @@ class UserController extends Controller
         catch (ModelNotFoundException $e) {
             return response()->json(['error' => 404, 'message' => "Utilisateur introuvable"], 404);
         }
-                $nom = $request->input('nom');
-                $prenom = $request->input('prenom');
-                $email = $request->input('email');
-                $telephone = $request->input('tel');
 
-                $nom = filter_var($nom, FILTER_SANITIZE_STRING);
-                $prenom = filter_var($prenom, FILTER_SANITIZE_STRING);
-                $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-                $telephone = filter_var($telephone, FILTER_SANITIZE_NUMBER_INT);
+        $this->validate($request, array(
+            'email' => "remail|unique:users,email,$id"
+        ));
 
-                $user->nom = $nom;
-                $user->prenom = $prenom;
-                $user->email = $email;
-                $user->telephone = $telephone;
-                $user->save();
+        $nom = $request->input('nom');
+        $prenom = $request->input('prenom');
+        $email = $request->input('email');
+        $telephone = $request->input('tel');
+        $password = $request->input('password');
 
-        return response()->json(201);
+
+        if($email !== null) {
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+            $user->email = $email;
+        }
+        if($password !== null) {
+            $password = filter_var($password, FILTER_SANITIZE_STRING);
+            $user->password = $password;
+        }
+        if($nom !== null) {
+            $nom = filter_var($nom, FILTER_SANITIZE_STRING);
+            $user->nom = $nom;
+        }
+        if($prenom !== null) {
+            $prenom = filter_var($prenom, FILTER_SANITIZE_STRING);
+            $user->prenom = $prenom;
+        }
+        if($telephone !== null) {
+            $telephone = filter_var($telephone, FILTER_SANITIZE_NUMBER_INT);
+            $user->telephone = $telephone;
+        }
+
+        $user->save();
+
+        return response()->json($user,201);
 
     }
 }
