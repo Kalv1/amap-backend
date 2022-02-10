@@ -50,6 +50,36 @@ class ContributeurController extends Controller
     }
 
     public function getRecettes($id) {
-        return true;
+        //récupération de toutes les recettes du contributeur ayant l'id passé en paramètre
+        $recettes = Recette::where('id_createur', '=', $id)->get();
+        $nbLikesMax = 0;
+        $topRecette = null;
+
+        //recherche de la recette la plus likée
+        foreach ($recettes as $recette) {
+            $nb_likes = count($recette->likes);
+            if (count($recette->likes) > $nbLikesMax) {
+                $topRecette = $recette;
+                $nbLikesMax = count($recette->likes);
+            }
+            unset($recette->likes);
+            $recette->nbLikes = $nb_likes;
+        }
+
+        //si au moins 1 like
+        if ($topRecette !== null) {
+            $result["topRecette"] = $topRecette;
+
+            $doublon = null;
+            foreach ($recettes as $key => $value) {
+                if ($value === $topRecette) {
+                    $doublon = $key;
+                }
+            }
+            unset($recettes[$doublon]);
+        }
+
+        $result["recettes"] = $recettes;
+        return response()->json($result);
     }
 }
