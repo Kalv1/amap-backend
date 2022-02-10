@@ -6,6 +6,7 @@ use App\Models\Recette;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class RecetteController extends Controller
 {
@@ -25,7 +26,24 @@ class RecetteController extends Controller
 
     public function create(Request $req) : JsonResponse
     {
+        try {
+            var_dump($req);
+            $this->validate($req, [
+                'id_createur' => 'required',
+                'titre' => 'required',
+                'description' => 'required',
+                'saison' => 'required',
+                'difficulte' => 'required',
+                'temps' => 'required',
+                'nb_pers' => 'required',
+                'regime' => 'required',
 
-     return response()->json('');
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => 'Modèle de donnée incorrect']);
+        }
+        $recipe = Recette::create($req->all());
+        $recipe->save();
+        return response()->json($recipe);
     }
 }

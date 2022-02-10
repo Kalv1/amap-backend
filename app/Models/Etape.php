@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\Request;
 
 class Etape extends Model
 {
