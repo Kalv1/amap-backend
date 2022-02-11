@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Etape;
 use App\Models\UstensileRecette;
 use App\Models\Ustensile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -38,6 +39,29 @@ class UstensileRecetteController extends Controller
         }
 
         return response()->json($ustensiles, 200);
+    }
+
+    public function addUstensile(Request $req){
+        foreach ($req->input('ustenciles') as $ustensile){
+            if($ustensile != '' && $ustensile != null){
+                $exist = Ustensile::where('nom', '=', strtolower($ustensile))->first();
+                if($exist === null){
+                    $newust = new Ustensile();
+                    $newust->nom = strtolower($ustensile);
+                    $newust->save();
+                    $ustensilerecette = new UstensileRecette();
+                    $ustensilerecette->id_ustensile = $newust->id;
+                    $ustensilerecette->id_recette = $req->input('id_recette');
+                    $ustensilerecette->save();
+                } else {
+                    $ustensilerecette = new UstensileRecette();
+                    $ustensilerecette->id_ustensile = $exist->id;
+                    $ustensilerecette->id_recette = $req->input('id_recette');
+                    $ustensilerecette->save();
+                }
+            }
+        }
+        return response()->json(['message' => 'Ustenciles ajouté avec succes']);
     }
 
 }

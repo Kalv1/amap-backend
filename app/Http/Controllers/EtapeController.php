@@ -30,6 +30,9 @@ class EtapeController extends Controller
                 $numetape++;
                 $etapemodel->id_recette = $req->input('id_recette');
                 $etapemodel->contenu = $etape['desc'];
+                if($etape['titre'] != '' || !is_null($etape['titre'])){
+                    $etapemodel->titre = $etape['titre'];
+                }
                 if($etape['temps'] == '') {
                     $etapemodel->temps = 0;
                 } else {

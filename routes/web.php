@@ -60,6 +60,8 @@ $router->group([
 
 ], function ($router) {
 
+    $router->post('ustensilerecette', 'UstensileRecetteController@addUstensile');
+    $router->post('produitrecette', 'ProduitRecetteController@addProduit');
     $router->post('etape', 'EtapeController@addEtape');
     $router->post('recette', 'RecetteController@create');
     $router->post('logout', 'AuthController@logout');
