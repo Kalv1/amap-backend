@@ -44,24 +44,26 @@ class UstensileRecetteController extends Controller
     public function addUstensile(Request $req){
         foreach ($req->input('ustenciles') as $ustensile){
             if($ustensile != '' && $ustensile != null){
-                $exist = Ustensile::where('nom', '=', strtolower($ustensile))->first();
-                if($exist === null){
-                    $newust = new Ustensile();
-                    $newust->nom = strtolower($ustensile);
-                    $newust->save();
-                    $ustensilerecette = new UstensileRecette();
-                    $ustensilerecette->id_ustensile = $newust->id;
-                    $ustensilerecette->id_recette = $req->input('id_recette');
-                    $ustensilerecette->save();
+                $exist = Ustensile::where('nom', '=', mb_strtolower($ustensile))->first();
+                if($exist === null) {
+                    $newUstensile = new Ustensile();
+                    $newUstensile->nom = mb_strtolower($ustensile);
+                    $newUstensile->save();
+
+                    $ustensileRecette = new UstensileRecette();
+                    $ustensileRecette->id_ustensile = $newUstensile->id;
+                    $ustensileRecette->id_recette = $req->input('id_recette');
+                    $ustensileRecette->save();
                 } else {
-                    $ustensilerecette = new UstensileRecette();
-                    $ustensilerecette->id_ustensile = $exist->id;
-                    $ustensilerecette->id_recette = $req->input('id_recette');
-                    $ustensilerecette->save();
+                    $ustensileRecette = new UstensileRecette();
+                    $ustensileRecette->id_ustensile = $exist->id;
+                    $ustensileRecette->id_recette = $req->input('id_recette');
+                    $ustensileRecette->save();
                 }
             }
         }
         return response()->json(['message' => 'Ustenciles ajouté avec succes']);
     }
-
 }
+
+

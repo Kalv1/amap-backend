@@ -40,10 +40,10 @@ class ProduitRecetteController extends Controller
     public function addProduit(Request $request){
         foreach($request->input('produits') as $produit){
             if($produit['nom'] != '' && !is_null($produit['nom'])){
-                $prod = Produit::where('nom', '=', strtolower($produit['nom']))->first();
+                $prod = Produit::where('nom', '=', mb_strtolower($produit['nom']))->first();
                 if($prod === null) {
                     $newprod = new Produit();
-                    $newprod->nom = strtolower($produit['nom']);
+                    $newprod->nom = mb_strtolower($produit['nom']);
                     $newprod->save();
                     $prodrecette = new ProduitRecette();
                     $prodrecette->id_recette = $request->input('id_recette');
