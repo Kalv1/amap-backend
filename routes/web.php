@@ -54,7 +54,6 @@ $router->get('recette/ustensiles/{id:[0-9]+}', 'UstensileRecetteController@getUs
 
 $router->get('recette/etapes/{id:[0-9]+}', 'EtapeController@getRecipeEtapes');
 
-
 $router->group([
 
     'middleware' => 'auth',
@@ -62,6 +61,10 @@ $router->group([
 
 ], function ($router) {
 
+    $router->post('ustensilerecette', 'UstensileRecetteController@addUstensile');
+    $router->post('produitrecette', 'ProduitRecetteController@addProduit');
+    $router->post('etape', 'EtapeController@addEtape');
+    $router->post('recette', 'RecetteController@create');
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
     $router->get('me', 'AuthController@me');
