@@ -85,5 +85,6 @@ $router->get('users', 'UserController@getUsers');
 $router->get('users/{id:[0-9]+}', 'UserController@getUser');
 $router->get('users/{id:[0-9]+}/avis[/]', 'UserController@getUserAvis');
 $router->get('users/{id:[0-9]+}/topics[/]', 'UserController@getUserTopics');
+$router->get('users/{id:[0-9]+}/expertises[/]', 'UserController@getUserExpertises');
 $router->put('users/{id:[0-9]+}[/]', 'UserController@putUser');
 
