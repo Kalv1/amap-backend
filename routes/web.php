@@ -54,6 +54,13 @@ $router->get('recette/ustensiles/{id:[0-9]+}', 'UstensileRecetteController@getUs
 
 $router->get('recette/etapes/{id:[0-9]+}', 'EtapeController@getRecipeEtapes');
 
+/*
+ * Route for ingredients
+*/
+
+$router->get('ingredients', 'ProduitController@getAll');
+$router->get('panier/{id:[0-9]+}', 'PanierController@getAll');
+
 $router->group([
 
     'middleware' => 'auth',
