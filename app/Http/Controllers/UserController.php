@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expertise;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,6 +56,27 @@ class UserController extends Controller
             return response()->json(['error' => 404, 'message' => "Topics de l'utilisateur introuvable"], 404);
         }
         return response()->json($topics, 200);
+    }
+
+    public function getUserExpertises($id): JsonResponse
+    {
+
+        try {
+            $user = User::with('expertises')
+                ->where('id','=',$id)->first();
+            $res = [];
+            foreach($user->expertises as $expertise_utilisateur){
+                $expertise = Expertise::find($expertise_utilisateur->pivot->id_expertise);
+                $res[] = $expertise;
+            }
+
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Expertise introuvable'], 404);
+        }
+
+
+        return response()->json($res, 200);
     }
 
     public function putUser(Request $request, $id): JsonResponse

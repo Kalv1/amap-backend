@@ -69,9 +69,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return [];
     }
 
-    public function recettes(){
+    public function recettes()
+    {
         return
             $this->belongsToMany('App\Models\Recette', 'avis','id_utilisateur', 'id_recette')
                 ->withPivot(['id','texte']);
+    }
+
+    public function expertises()
+    {
+        return
+            $this->belongsToMany('App\Models\Expertise', 'expertise_utilisateur', 'id_utilisateur', 'id_expertise')
+                ->withPivot(['id_utilisateur', 'id_expertise']);
     }
 }
