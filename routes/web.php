@@ -60,6 +60,8 @@ $router->get('recette/etapes/{id:[0-9]+}', 'EtapeController@getRecipeEtapes');
 
 $router->get('ingredients', 'ProduitController@getAll');
 $router->get('panier/{id:[0-9]+}', 'PanierController@getAll');
+$router->post('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@addItem');
+$router->delete('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@removeItem');
 
 $router->group([
 
