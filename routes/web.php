@@ -83,8 +83,21 @@ $router->get('topics', 'TopicController@getAll');
 
 $router->get('users', 'UserController@getUsers');
 $router->get('users/{id:[0-9]+}', 'UserController@getUser');
-$router->get('users/{id:[0-9]+}/avis[/]', 'UserController@getUserAvis');
-$router->get('users/{id:[0-9]+}/topics[/]', 'UserController@getUserTopics');
-$router->get('users/{id:[0-9]+}/expertises[/]', 'UserController@getUserExpertises');
 $router->put('users/{id:[0-9]+}[/]', 'UserController@putUser');
+
+// User avis
+$router->get('users/{id:[0-9]+}/avis[/]', 'UserController@getUserAvis');
+
+// User topics
+$router->get('users/{id:[0-9]+}/topics[/]', 'UserController@getUserTopics');
+
+// User Expertises
+$router->get('users/{id:[0-9]+}/expertises[/]', 'UserController@getUserExpertises');
+$router->post('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}[/]', 'UserController@postUserExpertise'); // Add user's expertise
+$router->get('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}[/]', 'UserController@deleteUserExpertise'); // Delete user's expertise (delete method doesn't work here)
+
+/*
+ * Route for Expertise
+ */
+$router->get('expertises', "ExpertiseController@getExpertises");
 
