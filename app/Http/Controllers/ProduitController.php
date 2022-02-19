@@ -11,7 +11,7 @@ class ProduitController extends Controller
 {
     public function getAll(): JsonResponse
     {
-        return response()->json(Produit::all());
+        return response()->json(Produit::orderBy("nom", "asc")->get());
     }
 
 }
