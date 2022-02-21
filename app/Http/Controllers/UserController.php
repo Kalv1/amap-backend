@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expertise;
 use App\Models\Topic;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -55,6 +57,90 @@ class UserController extends Controller
             return response()->json(['error' => 404, 'message' => "Topics de l'utilisateur introuvable"], 404);
         }
         return response()->json($topics, 200);
+    }
+
+    public function getUserExpertises($id): JsonResponse
+    {
+
+        try {
+            $user = User::with('expertises')
+                ->where('id','=',$id)
+                ->first();
+            $res = [];
+            foreach($user->expertises as $expertise_utilisateur){
+                $expertise = Expertise::find($expertise_utilisateur->pivot->id_expertise);
+                $res[] = $expertise;
+            }
+
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Expertise introuvable'], 404);
+        }
+
+
+        return response()->json($res, 200);
+    }
+
+    public function postUserExpertise($idUser, $idExpertise): JsonResponse
+    {
+        try {
+            $user = User::with('expertises')
+                ->where('id','=',$idUser)
+                ->first();
+
+            // Get user's expertises
+            $res = [];
+            foreach($user->expertises as $expertise_utilisateur){
+                $expertise = Expertise::find($expertise_utilisateur->pivot->id_expertise);
+                $res[] = $expertise;
+            }
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Utilisateur introuvable'], 404);
+        }
+
+        // Verify if user's expertise already exist
+        $isExist = false;
+        foreach ($res as $element) {
+            if ($idExpertise == $element->id) {
+                $isExist = true;
+            }
+        }
+
+        if($isExist) {
+            return response()->json(['error' => 409, 'message' => "L'utilisateur possède déjà cette expertise"], 409);
+        }
+        else {
+            $user->expertises()->attach($idExpertise);
+            return response()->json("Resource created successfully", 201);
+        }
+
+    }
+
+    public function deleteUserExpertise($idUser, $idExpertise): JsonResponse
+    {
+        // Find user
+        try {
+            $user = User::find($idUser);
+            $user->expertises()->wherePivot('id_expertise', '=', $idExpertise)->detach();
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Utilisateur introuvable'], 404);
+        }
+
+        return response()->json("Resource deleted successfully", 200);
+
+    }
+
+    public function getUsersSkills($id): JsonResponse
+    {
+        try {
+            $expertises = Expertise::where('id_user','=',$id)->get();
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => "Expertises de l'utilisateur introuvable"], 404);
+        }
+        return response()->json($expertises, 200);
     }
 
     public function putUser(Request $request, $id): JsonResponse

@@ -41,6 +41,5 @@ class PanierController extends Controller
         } else {
             return response()->json(['message' => 'Produit innexistant pour se panier'], 404);
         }
-
     }
 }

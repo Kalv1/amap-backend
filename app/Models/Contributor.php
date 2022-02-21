@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
+class Contributor extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable, HasFactory;
 
@@ -30,28 +30,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'updated_at'
+        'password', 'updated_at', 'created_at'
     ];
 
-    protected $table = 'utilisateur';
+    protected $table = 'contributeur';
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
     }
-
-    public function products(){
-        return $this->belongsToMany(Produit::class, 'produit_producteur', 'id_producteur', 'id_produit');
-    }
-
-
-    /**
-     * Get following people
-     */
-    public function following()
-    {
-        return $this->belongsToMany(User::class, 'suivi', 'id_suiveur', 'id_suivi');
-    }
-
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -71,17 +57,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function recettes(){
-        return
-            $this->belongsToMany('App\Models\Recette', 'avis','id_utilisateur', 'id_recette')
-                ->withPivot(['id','texte']);
-    }
-
-    public function expertises(){
-        return
-            $this->belongsToMany('App\Models\Expertise', 'expertise_utilisateur','id_utilisateur', 'id_expertise')
-                ->withPivot(['id_utilisateur','id_expertise']);
     }
 }
