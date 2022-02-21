@@ -132,6 +132,17 @@ class UserController extends Controller
 
     }
 
+    public function getUsersSkills($id): JsonResponse
+    {
+        try {
+            $expertises = Expertise::where('id_user','=',$id)->get();
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => "Expertises de l'utilisateur introuvable"], 404);
+        }
+        return response()->json($expertises, 200);
+    }
+
     public function putUser(Request $request, $id): JsonResponse
     {
         try {
