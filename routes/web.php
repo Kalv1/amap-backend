@@ -90,6 +90,10 @@ $router->group([
 
 ], function ($router) {
 
+    $router->post('etape', 'EtapeController@addEtape');
+    $router->post('produitrecette', 'ProduitRecetteController@addProduit');
+    $router->post('ustensilerecette', 'UstensileRecetteController@addUstensile');
+    $router->post('recette', 'RecetteController@create');
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
     $router->get('me', 'AuthController@me');
