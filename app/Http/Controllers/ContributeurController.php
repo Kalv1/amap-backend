@@ -99,14 +99,19 @@ class ContributeurController extends Controller
                 }
             }
         }
-
-        $result["sixDernieres"] = $sixDernieres;
+        if ($sixDernieres->count() > 0) {
+            $result["sixDernieres"] = $sixDernieres;
+        }
 
         if ($recettes->count() > 0) {
             $result["recettes"] = $recettes;
         }
 
-        return response()->json($result);
+        if (isset($result)) {
+            return response()->json($result);
+        } else {
+            return response()->json(['message' => 'Aucune recette']);
+        }
     }
 
     public function getProducteursName(){
