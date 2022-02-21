@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'updated_at', 'created_at'
+        'password', 'updated_at'
     ];
 
     protected $table = 'utilisateur';
@@ -67,5 +67,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function recettes()
+    {
+        return
+            $this->belongsToMany('App\Models\Recette', 'avis','id_utilisateur', 'id_recette')
+                ->withPivot(['id','texte']);
+    }
+
+    public function expertises()
+    {
+        return
+            $this->belongsToMany('App\Models\Expertise', 'expertise_utilisateur', 'id_utilisateur', 'id_expertise')
+                ->withPivot(['id_utilisateur', 'id_expertise']);
     }
 }

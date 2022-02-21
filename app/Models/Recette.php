@@ -27,4 +27,9 @@ class Recette extends Model
             $this->belongsToMany('App\Models\User', 'avis', 'id_recette', 'id_utilisateur')
                 ->withPivot(['id', 'texte']);
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'aime', 'id_recette', 'id_user');
+    }
 }

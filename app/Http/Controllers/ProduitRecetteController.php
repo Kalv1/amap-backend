@@ -36,4 +36,30 @@ class ProduitRecetteController extends Controller
 
         return response()->json($produits, 200);
     }
+
+    public function addProduit(Request $request){
+        foreach($request->input('produits') as $produit){
+            if($produit['nom'] != '' && !is_null($produit['nom'])){
+                $prod = Produit::where('nom', '=', mb_strtolower($produit['nom']))->first();
+                if($prod === null) {
+                    $newprod = new Produit();
+                    $newprod->nom = mb_strtolower($produit['nom']);
+                    $newprod->save();
+                    $prodrecette = new ProduitRecette();
+                    $prodrecette->id_recette = $request->input('id_recette');
+                    $prodrecette->id_produit = $newprod->id;
+                    $prodrecette->nombre = $produit['poid'];
+                    $prodrecette->unite = $produit['unite'];
+                } else {
+                    $prodrecette = new ProduitRecette();
+                    $prodrecette->id_recette = $request->input('id_recette');
+                    $prodrecette->id_produit = $prod->id;
+                    $prodrecette->nombre = $produit['poid'];
+                    $prodrecette->unite = $produit['unite'];
+                }
+                $prodrecette->save();
+            }
+        }
+        return response()->json(['message' => 'Produits ajouté avec succes']);
+    }
 }
