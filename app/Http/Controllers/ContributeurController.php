@@ -90,7 +90,22 @@ class ContributeurController extends Controller
             unset($recettes[$doublon]);
         }
 
-        $result["recettes"] = $recettes;
+        $sixDernieres = Recette::where('id_createur', '=', $id)->orderBy('created_at', 'desc')->take(6)->get();
+        foreach ($sixDernieres as $key => $value) {
+            foreach ($recettes as $k => $v) {
+                if ($v['id'] === $value['id']) {
+                    $test[] = $v['id'];
+                    unset($recettes[$k]);
+                }
+            }
+        }
+
+        $result["sixDernieres"] = $sixDernieres;
+
+        if ($recettes->count() > 0) {
+            $result["recettes"] = $recettes;
+        }
+
         return response()->json($result);
     }
 
