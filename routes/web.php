@@ -27,6 +27,7 @@ $router->post('auth/register', 'AuthController@register');
 /*
  * Route for Contributor
  */
+$router->get('contributeur/{id:[0-9]+}', 'ContributeurController@getNameById');
 $router->get('contributeurs', 'ContributeurController@getAll');
 $router->get('contributeurs/suivis/{id:[0-9]+}', 'ContributeurController@getSuivis');
 $router->get('contributeur/{id:[0-9]+}', 'ContributeurController@getContributeur');
@@ -36,10 +37,29 @@ $router->put('contributeur/{idSuiveur:[0-9]+}/unfollow/{idSuivi:[0-9]+}', 'Contr
 
 
 /*
- * Route for products
+ * Route Productor
+ */
+
+$router->get('producteurs', 'ContributeurController@getProducteursName');
+
+/*
+ * Route for productsRecipe
 */
 
 $router->get('recette/produits/{id:[0-9]+}', 'ProduitRecetteController@getProduitsRecette');
+
+/*
+ * Route for productsBasket
+*/
+
+$router->get('panier/produits/{id:[0-9]+}', 'ProduitPanierController@getProduitsPanier');
+
+
+/*
+ * Route for product
+*/
+
+$router->get('produits', 'ProduitController@getAll');
 
 /*
  * Route for ustensile
@@ -49,7 +69,7 @@ $router->get('recette/ustensiles/{id:[0-9]+}', 'UstensileRecetteController@getUs
 
 
 /*
- * Route for etape
+ * Route for step
 */
 
 $router->get('recette/etapes/{id:[0-9]+}', 'EtapeController@getRecipeEtapes');
@@ -67,6 +87,12 @@ $router->group([
     $router->get('me', 'AuthController@me');
 
 });
+
+/*
+ * Route for panier
+ */
+
+$router->get('paniers', 'PanierController@getAll');
 
 /*
  * Route for Topic

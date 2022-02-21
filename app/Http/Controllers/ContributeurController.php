@@ -19,6 +19,17 @@ class ContributeurController extends Controller
         return response()->json($contributeurs);
     }
 
+    static function getNameById($id): JsonResponse
+    {
+        try {
+            $res = User::findOrFail($id);
+            $nom = $res->nom.' '.$res->prenom;
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Recette introuvable'], 404);
+        }
+        return response()->json($nom, 200);
+    }
+
     public function getSuivis($id): JsonResponse
     {
         return response()->json(User::find($id)->following);
@@ -81,5 +92,26 @@ class ContributeurController extends Controller
 
         $result["recettes"] = $recettes;
         return response()->json($result);
+    }
+
+    public function getProducteursName(){
+
+        $productors = [];
+
+        try {
+            $res = User::select("id", "nom", "prenom")->where('producteur', "=", 1)->get();
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Producteur introuvable'], 404);
+        }
+
+        foreach($res as $value){
+            $productor = [];
+            $productor['id'] = $value['id'];
+            $productor['nom'] = $value['nom'].' '.$value['prenom'];
+            array_push($productors, $productor);
+        }
+
+        return response()->json($productors, 200);
     }
 }
