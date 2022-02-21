@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 
 class ExpertiseController
 {
-    public function getExpertises():JsonResponse
+    public function getAll():JsonResponse
     {
         return response()->json(Expertise::all());
     }
