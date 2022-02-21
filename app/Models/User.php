@@ -53,6 +53,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
 
+    public function recettesAimees()
+    {
+        return $this->belongsToMany(Recette::class, 'aime', 'id_user', 'id_recette');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

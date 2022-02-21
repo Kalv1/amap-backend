@@ -187,6 +187,38 @@ class UserController extends Controller
         $user->save();
 
         return response()->json($user,201);
+    }
 
+    public function getLikedRecette($idUser): JsonResponse
+    {
+        try {
+            $recettes = User::find($idUser)->recettesAimees()->get();
+            return response()->json($recettes);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
+
+    public function likeRecette($idUser, $idRecette): JsonResponse
+    {
+        try {
+            User::find($idUser)->recettesAimees()->attach($idRecette);
+            return response()->json(['message' => 'Recette aimée']);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
+
+    public function dislikeRecette($idUser, $idRecette): JsonResponse
+    {
+        try {
+            User::find($idUser)->recettesAimees()->detach($idRecette);
+            return response()->json(['message' => 'Recette plus aimée']);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
     }
 }
