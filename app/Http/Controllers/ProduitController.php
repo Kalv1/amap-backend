@@ -13,5 +13,4 @@ class ProduitController extends Controller
     {
         return response()->json(Produit::orderBy("nom", "asc")->get());
     }
-
 }

@@ -39,6 +39,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function products(){
+        return $this->belongsToMany(Produit::class, 'produit_producteur', 'id_producteur', 'id_produit');
+    }
+
 
     /**
      * Get following people
