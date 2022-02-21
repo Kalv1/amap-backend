@@ -36,7 +36,7 @@ class RecetteController extends Controller
                 'temps' => 'required',
                 'nb_pers' => 'required',
                 'regime' => 'required',
-
+                'type' => 'required'
             ]);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Modèle de donnée incorrect']);
