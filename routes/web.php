@@ -23,7 +23,6 @@ $router->get('recette/{id:[0-9]+}', 'RecetteController@getRecette');
 $router->post('auth/login', 'AuthController@login');
 $router->post('auth/register', 'AuthController@register');
 
-
 /*
  * Route for Contributor
  */
