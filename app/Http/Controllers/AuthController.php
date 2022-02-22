@@ -21,14 +21,26 @@ class AuthController extends Controller
             $this->validate($request, [
                 'nom' => 'required',
                 'prenom' => 'required',
-                'email' => 'required|email|unique:App\Models\User,email',
+                'email' => 'required|email',
+                'telephone' => 'required',
                 'password' => 'required'
             ]);
         } catch (ValidationException $e) {
-            return response()->json(['message' => 'User registration failed']);
+            return response()->json(array('code' => 400, 'message' => 'Une erreur est survenue, veuillez réessayer'));
         }
+
+        $email = User::where('email', '=', $request->email)->first();
+        if ($email != null) {
+            return response()->json(array('code' => 400, 'message' => 'Un compte a déjà été créé avec cet email'));
+        }
+
         $user = User::create($request->all());
         $user->save();
+
+        foreach ($request->expertise as $expertise) {
+            $user->expertises()->attach($expertise);
+        }
+
         return response()->json($user);
     }
 
