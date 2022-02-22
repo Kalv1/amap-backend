@@ -32,8 +32,8 @@ $router->get('contributeurs', 'ContributeurController@getAll');
 $router->get('contributeurs/suivis/{id:[0-9]+}', 'ContributeurController@getSuivis');
 $router->get('contributeur/{id:[0-9]+}', 'ContributeurController@getContributeur');
 $router->get('contributeur/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
-$router->post('contributeur/{idSuiveur:[0-9]+}/suivre/{idSuivi:[0-9]+}', 'ContributeurController@suivre');
-$router->delete('contributeur/{idSuiveur:[0-9]+}/unfollow/{idSuivi:[0-9]+}', 'ContributeurController@nePlusSuivre');
+$router->put('contributeur/{idSuiveur:[0-9]+}/suivre/{idSuivi:[0-9]+}', 'ContributeurController@suivre');
+$router->put('contributeur/{idSuiveur:[0-9]+}/unfollow/{idSuivi:[0-9]+}', 'ContributeurController@nePlusSuivre');
 
 
 /*
@@ -128,9 +128,7 @@ $router->get('users/{id:[0-9]+}/avis', 'UserController@getUserAvis');
 $router->get('users/{id:[0-9]+}/topics', 'UserController@getUserTopics');
 $router->put('users/{id:[0-9]+}', 'UserController@putUser');
 $router->get('users/{id:[0-9]+}/expertises', 'UserController@getUserExpertises');
-$router->get('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@deleteUserExpertise'); // Delete user's expertise (delete method doesn't work for pivot)
+$router->delete('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@deleteUserExpertise'); // Delete user's expertise (delete method doesn't work for pivot)
 $router->post('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@postUserExpertise'); // Post user's expertise
+$router->get('users/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
 
-$router->get('users/{idUser:[0-9]+}/liked', 'UserController@getLikedRecette');
-$router->post('users/{idUser:[0-9]+}/like/{idRecette:[0-9]+}', 'UserController@likeRecette');
-$router->delete('users/{idUser:[0-9]+}/dislike/{idRecette:[0-9]+}', 'UserController@dislikeRecette');
