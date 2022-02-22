@@ -106,7 +106,8 @@ $router->get('paniers', 'PanierController@getAll');
  * Route for Topic
  */
 
-$router->get('topics', 'TopicController@getAll');
+$router->get('questions', 'TopicController@getAll');
+$router->post('question', 'TopicController@addQuestion');
 
 /*
  * Route for Expertises
