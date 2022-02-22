@@ -6,6 +6,7 @@ use App\Models\Recette;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
 
 class RecetteController extends Controller
@@ -24,6 +25,13 @@ class RecetteController extends Controller
         return response()->json($res, 200);
     }
 
+
+    function public_path($path = null)
+    {
+        return app()->basePath() . DIRECTORY_SEPARATOR . 'public'. DIRECTORY_SEPARATOR . $path;
+    }
+
+
     public function create(Request $req) : JsonResponse
     {
         try {
@@ -33,7 +41,7 @@ class RecetteController extends Controller
                 'description' => 'required',
                 'saison' => 'required',
                 'difficulte' => 'required',
-                'temps' => 'required',
+                'temps' => 'required|regex:/[0-9]+/',
                 'nb_pers' => 'required',
                 'regime' => 'required',
                 'type' => 'required'
@@ -42,6 +50,18 @@ class RecetteController extends Controller
             return response()->json(['error' => 'Modèle de donnée incorrect']);
         }
         $recipe = Recette::create($req->all());
+        if($req->hasFile('url_img')) {
+            $picname = $req->file('url_img')->getClientOriginalName();
+            $picname = uniqid() . '_' . $picname;
+            $path = 'uploads' . DIRECTORY_SEPARATOR . 'img';
+            $destination = $this->public_path($path);
+            var_dump($destination);
+            File::makeDirectory($destination, 0777, true, true);
+            $req->file('url_img')->move($destination, $picname);
+            $recipe->url_img = $picname;
+        } else {
+            $recipe->url_img = 'default.png';
+        }
         $recipe->save();
 
         return response()->json(['id' => $recipe->id]);
