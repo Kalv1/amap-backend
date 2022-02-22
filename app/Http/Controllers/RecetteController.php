@@ -46,4 +46,15 @@ class RecetteController extends Controller
 
         return response()->json(['id' => $recipe->id]);
     }
+
+    public function deleteRecette($id): JsonResponse
+    {
+        try {
+            Recette::findOrFail($id)->delete();
+            return response()->json("Resource deleted successfully", 200);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
 }

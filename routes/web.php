@@ -42,11 +42,13 @@ $router->put('contributeur/{idSuiveur:[0-9]+}/unfollow/{idSuivi:[0-9]+}', 'Contr
 
 $router->get('producteurs', 'ContributeurController@getProducteursName');
 
+
 /*
  * Route for productsRecipe
 */
 
 $router->get('recette/produits/{id:[0-9]+}', 'ProduitRecetteController@getProduitsRecette');
+
 
 /*
  * Route for productsBasket
@@ -61,6 +63,7 @@ $router->get('panier/produits/{id:[0-9]+}', 'ProduitPanierController@getProduits
 
 $router->get('produits', 'ProduitController@getAll');
 
+
 /*
  * Route for ustensile
 */
@@ -73,6 +76,7 @@ $router->get('recette/ustensiles/{id:[0-9]+}', 'UstensileRecetteController@getUs
 */
 
 $router->get('recette/etapes/{id:[0-9]+}', 'EtapeController@getRecipeEtapes');
+
 
 /*
  * Route for ingredients
@@ -100,11 +104,20 @@ $router->group([
 
 });
 
+
+/*
+ * Route for recettes
+ */
+
+$router->delete('recettes/{id:[0-9]+}', 'RecetteController@deleteRecette');
+
+
 /*
  * Route for panier
  */
 
 $router->get('paniers', 'PanierController@getAll');
+
 
 /*
  * Route for Topic
@@ -112,23 +125,32 @@ $router->get('paniers', 'PanierController@getAll');
 
 $router->get('topics', 'TopicController@getAll');
 
+
 /*
  * Route for Expertises
  */
 
 $router->get('expertises', 'ExpertiseController@getAll');
 
+
 /*
  * Route for User
  */
 
-$router->get('users', 'UserController@getUsers');
+// Global user routes
 $router->get('users/{id:[0-9]+}', 'UserController@getUser');
-$router->get('users/{id:[0-9]+}/avis', 'UserController@getUserAvis');
-$router->get('users/{id:[0-9]+}/topics', 'UserController@getUserTopics');
 $router->put('users/{id:[0-9]+}', 'UserController@putUser');
+
+// User's avis routes
+$router->get('users/{id:[0-9]+}/avis', 'UserController@getUserAvis');
+
+// User's topics routes
+$router->get('users/{id:[0-9]+}/topics', 'UserController@getUserTopics');
+
+// User's expertises routes
 $router->get('users/{id:[0-9]+}/expertises', 'UserController@getUserExpertises');
 $router->delete('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@deleteUserExpertise'); // Delete user's expertise (delete method doesn't work for pivot)
 $router->post('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@postUserExpertise'); // Post user's expertise
-$router->get('users/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
 
+// User's recipes routes
+$router->get('users/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
