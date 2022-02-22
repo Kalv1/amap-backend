@@ -68,7 +68,7 @@ $router->get('produits', 'ProduitController@getAll');
  * Route for ustensile
 */
 
-$router->get('recette/ustensiles/{id:[0-9]+}', 'UstensileRecetteController@getUstensilesRecette');
+$router->get('recette/ustensiles/{id:[0-9]+}', 'RecetteController@getRecetteUstensiles');
 
 
 /*
@@ -96,7 +96,7 @@ $router->group([
 
     $router->post('etape', 'EtapeController@addEtape');
     $router->post('produitrecette', 'ProduitRecetteController@addProduit');
-    $router->post('ustensilerecette', 'UstensileRecetteController@addUstensile');
+    $router->post('ustensilerecette', 'RecetteController@putRecetteUstencile');
     $router->post('recette', 'RecetteController@create');
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
@@ -110,6 +110,7 @@ $router->group([
  */
 
 $router->delete('recettes/{id:[0-9]+}', 'RecetteController@deleteRecette');
+$router->get('recettes/{id:[0-9]+}/aime', 'RecetteController@getRecetteAime');
 
 
 /*
