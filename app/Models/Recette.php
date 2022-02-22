@@ -22,7 +22,7 @@ class Recette extends Model
 
     protected $table = 'recette';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function utilisateurs()
     {
