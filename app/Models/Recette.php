@@ -33,6 +33,13 @@ class Recette extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(User::class, 'aime', 'id_recette', 'id_user');
+        return $this->belongsToMany(User::class, 'aime', 'id_recette', 'id_user')
+                    ->withPivot(['id_user','id_recette']);
+    }
+
+    public function ustensiles()
+    {
+        return $this->belongsToMany(Ustensile::class, 'ustensile_recette', 'id_recette', 'id_ustensile')
+            ->withPivot(['id_ustensile','id_recette', 'nombre']);
     }
 }
