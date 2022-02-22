@@ -94,6 +94,8 @@ class RecetteFactory extends Factory
             'nb_pers' => rand(1, 7),
             'regime' => $r,
             'type' => $t,
+            'created_at'=> date("Y-m-d H:i:s"),
+            'updated_at'=> date("Y-m-d H:i:s")
         ];
     }
 }
