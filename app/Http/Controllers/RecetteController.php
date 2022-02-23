@@ -56,7 +56,6 @@ class RecetteController extends Controller
             $picname = uniqid() . '_' . $picname;
             $path = 'uploads' . DIRECTORY_SEPARATOR . 'img';
             $destination = $this->public_path($path);
-            var_dump($destination);
             File::makeDirectory($destination, 0777, true, true);
             $req->file('url_img')->move($destination, $picname);
             $recipe->url_img = $picname;
