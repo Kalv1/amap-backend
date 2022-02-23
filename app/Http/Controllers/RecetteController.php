@@ -90,7 +90,7 @@ class RecetteController extends Controller
                 ->where('id','=',$id)->first();
             $res = [];
             foreach($recette->likes as $aime){
-                $res[] = [$aime->pivot->id_user => $aime->pivot->id_recette];
+                $res[] = [$recette, $aime->pivot->id_user => $aime->pivot->id_recette];
             }
 
         }

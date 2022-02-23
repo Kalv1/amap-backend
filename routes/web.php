@@ -153,7 +153,7 @@ $router->delete('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserCo
 $router->post('users/{idUser:[0-9]+}/expertises/{idExpertise:[0-9]+}', 'UserController@postUserExpertise'); // Post user's expertise
 
 // User's recipes routes
-$router->get('users/{id:[0-9]+}/recettes', 'ContributeurController@getRecettes');
+$router->get('users/{id:[0-9]+}/recettes', 'UserController@getUserRecettes');
 
 // User's like routes
 $router->get('users/{idUser:[0-9]+}/liked', 'UserController@getLikedRecette');
