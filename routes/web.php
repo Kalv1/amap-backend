@@ -107,7 +107,14 @@ $router->get('paniers', 'PanierController@getAll');
  */
 
 $router->get('questions', 'TopicController@getAll');
+$router->get('question/{id:[0-9]+}', 'TopicController@getQuestion');
 $router->post('question', 'TopicController@addQuestion');
+
+/*
+ * Route for AnswerTopic
+ */
+
+$router->get('question/{id:[0-9]+}/reponses', 'AnswerController@getAllFromQuestion');
 
 /*
  * Route for Expertises

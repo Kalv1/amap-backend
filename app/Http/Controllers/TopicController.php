@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Http\Controllers\ContributeurController;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Laravel\Lumen\Routing\Controller;
@@ -12,7 +13,30 @@ class TopicController extends Controller
 {
     public function getAll(): JsonResponse
     {
-        return response()->json(Topic::all());
+        $res = Question::all();
+        $questions = [];
+        foreach($res as $value){
+            $nom = ContributeurController::getNameById($value['id_user']);
+            $value["nom"] = $nom->original;
+
+            array_push($questions, $value);
+        }
+
+        return response()->json($res);
+    }
+
+    public function getQuestion(Request $req, $id): JsonResponse
+    {
+        try {
+            $res = Question::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 404, 'message' => 'Recette introuvable'], 404);
+        }
+
+        $nom = ContributeurController::getNameById($res['id_user']);
+        $res["nom"] = $nom->original;
+
+        return response()->json($res, 200);
     }
 
     public function addQuestion(Request $request): JsonResponse
