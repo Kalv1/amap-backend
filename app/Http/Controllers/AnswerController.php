@@ -63,4 +63,41 @@ class AnswerController extends Controller
         }
     }
 
+    public function deleteAnswer($id_question, $id_user): JsonResponse
+    {
+        if(Answer::where([
+            ['id_question', '=', $id_question],
+            ['id_user', '=', $id_user]
+        ])->exists()) {
+            $answer = Answer::where([
+                ['id_question', '=', $id_question],
+                ['id_user', '=', $id_user]
+            ])->delete();
+            return response()->json(['message' => 'réponse supprimé avec succès']);
+        } else {
+            return response()->json(['message' => 'réponse innexistant'], 404);
+        }
+
+    }
+
+    public function putAnswer(Request $request, $id_question, $id_user) {
+        if(Answer::where([
+            ['id_question', '=', $id_question],
+            ['id_user', '=', $id_user]
+        ])->exists()) {
+            $answer = Answer::where([
+                ['id_question', '=', $id_question],
+                ['id_user', '=', $id_user]
+            ])->get();
+            $answer->reponse = $request->input('reponse');
+
+            //$answer->save();
+
+            return response()->json($answer,201);
+        } else {
+            return response()->json(['message' => 'Produit innexistant pour se panier'], 404);
+        }
+        
+    }
+
 }
