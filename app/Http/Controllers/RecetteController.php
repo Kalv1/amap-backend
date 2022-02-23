@@ -73,6 +73,8 @@ class RecetteController extends Controller
         try {
 
             $recette = Recette::findOrFail($id);
+            $recette->likes()->wherePivot('id_recette', '=', $id)->detach();
+            $recette->ustensiles()->wherePivot('id_recette', '=', $id)->detach();
             $recette->delete();
 
             return response()->json("Resource deleted successfully", 200);
