@@ -115,6 +115,7 @@ $router->post('question', 'TopicController@addQuestion');
  */
 
 $router->get('question/{id:[0-9]+}/reponses', 'AnswerController@getAllFromQuestion');
+$router->post('question/{id:[0-9]+}/reponse', 'AnswerController@addAnswer');
 
 /*
  * Route for Expertises

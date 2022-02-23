@@ -59,7 +59,7 @@ class TopicController extends Controller
 
             return response()->json($question,201);
         }else {
-            return response()->json(['error' => 404, 'message' => "La question de l'utilisateur ne peux pas être créé".$id_expertise], 404); 
+            return response()->json(['error' => 404, 'message' => "La question de l'utilisateur ne peux pas être créé"], 404); 
         }
     }
 }

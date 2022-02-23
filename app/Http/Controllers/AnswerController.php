@@ -35,4 +35,32 @@ class AnswerController extends Controller
         return response()->json($answers, 200);
     }
 
+    public function addAnswer(Request $request, $id): JsonResponse
+    {
+        $answer = new Answer();
+        $id_question = $request->input('id_question');
+        $id_user = $request->input('id_user');
+        $reponse = $request->input('reponse');
+        $date = new DateTime('NOW');
+
+        if(isset($answer) && isset($id_user) && isset($reponse)){
+            $answer->id_question = $id_question;
+            $answer->id_user = $id_user;
+            $answer->reponse = $reponse;
+            $answer->date = $date;
+
+            $answer->save();
+
+            $user = User::findOrFail($answer['id_user']);
+            $nom = ContributeurController::getNameById($answer['id_user']);
+            $answer["nom"] = $nom->original;
+            $answer["img_user"] = $user->url_img;
+            $answer->date = $date->format('Y-m-d H:i:s');
+
+            return response()->json($answer,201);
+        }else {
+            return response()->json(['error' => 404, 'message' => "La réponse ne peux pas être créé"], 404); 
+        }
+    }
+
 }
