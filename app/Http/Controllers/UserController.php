@@ -217,4 +217,21 @@ class UserController extends Controller
         }
     }
 
+    // User's Recipes methods
+    public function getUserRecettes($id): JsonResponse
+    {
+        try {
+            $recettes = Recette::with('likes')->where('id_createur','=',$id)->get();
+            $res = [];
+            foreach ($recettes as $recette) {
+                $res[] = ['recette' => $recette , 'nbLikes' => $recette->likes->count()];
+            }
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+
+        return response()->json($res, 200);
+    }
+
 }
