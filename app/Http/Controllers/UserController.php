@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expertise;
+use App\Models\Question;
 use App\Models\Recette;
-use App\Models\Topic;
 use App\Models\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -101,12 +101,12 @@ class UserController extends Controller
     public function getUserTopics($id): JsonResponse
     {
         try {
-            $topics = Topic::where('id_user','=',$id)->get();
+            $question = Question::where('id_user','=',$id)->get();
         }
         catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 404, 'message' => "Topics de l'utilisateur introuvable"], 404);
+            return response()->json(['error' => 404, 'message' => "Questions de l'utilisateur introuvable"], 404);
         }
-        return response()->json($topics, 200);
+        return response()->json($question, 200);
     }
 
     // User's Expertises methods

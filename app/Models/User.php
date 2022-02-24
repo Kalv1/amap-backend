@@ -89,4 +89,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             $this->belongsToMany('App\Models\Expertise', 'expertise_utilisateur','id_utilisateur', 'id_expertise')
                 ->withPivot(['id_utilisateur','id_expertise']);
     }
+
+    public function messages(){
+        return
+            $this->belongsToMany('App\Models\Question', 'reponse_question','id_user', 'id_question')
+                ->withPivot(['reponse', 'date']);
+    }
 }
