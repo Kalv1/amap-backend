@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Recette extends Model
 {
+    use hasFactory;
+
     protected $fillable = [
         'titre',
         'description',
@@ -19,7 +22,7 @@ class Recette extends Model
 
     protected $table = 'recette';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function utilisateurs()
     {
@@ -30,6 +33,13 @@ class Recette extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(User::class, 'aime', 'id_recette', 'id_user');
+        return $this->belongsToMany(User::class, 'aime', 'id_recette', 'id_user')
+                    ->withPivot(['id_user','id_recette']);
+    }
+
+    public function ustensiles()
+    {
+        return $this->belongsToMany(Ustensile::class, 'ustensile_recette', 'id_recette', 'id_ustensile')
+            ->withPivot(['id_ustensile','id_recette', 'nombre']);
     }
 }
