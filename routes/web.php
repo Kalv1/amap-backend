@@ -85,6 +85,7 @@ $router->get('ingredients', 'ProduitController@getAll');
 $router->get('panier/{id:[0-9]+}', 'PanierController@getAll');
 $router->post('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@addItem');
 $router->delete('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@removeItem');
+$router->get('commentaires/{id:[0-9]+}', 'CommentaireController@getAllFromRecipe');
 
 $router->group([
 
