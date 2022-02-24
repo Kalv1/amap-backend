@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Recette;
 use App\Http\Controllers\ContributeurController;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,9 @@ class TopicController extends Controller
         $questions = [];
         foreach($res as $value){
             $nom = ContributeurController::getNameById($value['id_user']);
+            $recette = Recette::find($value['id_recette']);
             $value["nom"] = $nom->original;
+            $value["recette"] = $recette->titre;
 
             array_push($questions, $value);
         }
@@ -34,7 +37,9 @@ class TopicController extends Controller
         }
 
         $nom = ContributeurController::getNameById($res['id_user']);
+        $recette = Recette::find($res['id_recette']);
         $res["nom"] = $nom->original;
+        $res["recette"] = $recette->titre;
 
         return response()->json($res, 200);
     }
