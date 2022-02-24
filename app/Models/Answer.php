@@ -15,4 +15,5 @@ class Answer extends Model
     protected $primaryKey = ['id_question', 'id_user'];
     public $timestamps = false;
     public $incrementing = false;
+
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
 use App\Models\User;
 use App\Http\Controllers\ContributeurController;
 use Illuminate\Http\Request;
@@ -81,22 +82,15 @@ class AnswerController extends Controller
     }
 
     public function putAnswer(Request $request, $id_question, $id_user) {
-        if(Answer::where([
-            ['id_question', '=', $id_question],
-            ['id_user', '=', $id_user]
-        ])->exists()) {
-            $answer = Answer::where([
-                ['id_question', '=', $id_question],
-                ['id_user', '=', $id_user]
-            ])->get();
-            $answer->reponse = $request->input('reponse');
-
-            //$answer->save();
-
-            return response()->json($answer,201);
-        } else {
-            return response()->json(['message' => 'Produit innexistant pour se panier'], 404);
+        $user = User::find($id_user);
+        $question = Question::find($id_question);
+        try {
+            $user->messages()->updateExistingPivot($id_question, array('reponse' => $request->input('reponse'), 'date' => new DateTime()),false);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Problème lors de la modification de la réponse'], 404);
         }
+
+        return response()->json(201);
         
     }
 

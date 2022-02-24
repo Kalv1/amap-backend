@@ -109,6 +109,7 @@ $router->get('paniers', 'PanierController@getAll');
 $router->get('questions', 'TopicController@getAll');
 $router->get('question/{id:[0-9]+}', 'TopicController@getQuestion');
 $router->post('question', 'TopicController@addQuestion');
+$router->put('question/resolu', 'TopicController@putResolved');
 
 /*
  * Route for AnswerTopic

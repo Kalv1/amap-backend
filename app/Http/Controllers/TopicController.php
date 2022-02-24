@@ -62,4 +62,19 @@ class TopicController extends Controller
             return response()->json(['error' => 404, 'message' => "La question de l'utilisateur ne peux pas être créé"], 404); 
         }
     }
+
+    public function putResolved(Request $request) {
+        
+            try {
+                $question = Question::find($request->input('id_question'));
+            } catch (ModelNotFoundException $e) {
+                return response()->json(['message' => 'Question innexistante'], 404);
+            }
+
+            $question->resolu = true;
+            $question->save();
+
+            return response()->json($question,201);
+        
+    }
 }
