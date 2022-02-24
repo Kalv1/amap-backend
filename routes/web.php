@@ -123,9 +123,20 @@ $router->get('paniers', 'PanierController@getAll');
  * Route for Topic
  */
 
-$router->get('topics', 'TopicController@getAll');
+$router->get('questions', 'TopicController@getAll');
+$router->get('question/{id:[0-9]+}', 'TopicController@getQuestion');
+$router->post('question', 'TopicController@addQuestion');
+$router->put('question/resolu', 'TopicController@putResolved');
 
 
+/*
+ * Route for AnswerTopic
+ */
+
+$router->get('question/{id:[0-9]+}/reponses', 'AnswerController@getAllFromQuestion');
+$router->post('question/{id:[0-9]+}/reponse', 'AnswerController@addAnswer');
+$router->delete('question/{id_question:[0-9]+}/delete/{id_user:[0-9]+}', 'AnswerController@deleteAnswer');
+$router->put('question/{id_question:[0-9]+}/edit/{id_user:[0-9]+}', 'AnswerController@putAnswer');
 /*
  * Route for Expertises
  */
