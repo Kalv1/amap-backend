@@ -173,3 +173,7 @@ $router->get('users/{idUser:[0-9]+}/liked', 'UserController@getLikedRecette');
 $router->post('users/{idUser:[0-9]+}/like/{idRecette:[0-9]+}', 'UserController@likeRecette');
 $router->delete('users/{idUser:[0-9]+}/dislike/{idRecette:[0-9]+}', 'UserController@dislikeRecette');
 
+// User's fav routes
+$router->get('users/{idUser:[0-9]+}/fav', 'UserController@getFavRecette');
+$router->post('users/{idUser:[0-9]+}/fav/{idRecette:[0-9]+}', 'UserController@FavRecette');
+$router->delete('users/{idUser:[0-9]+}/unfav/{idRecette:[0-9]+}', 'UserController@unfavRecette');
