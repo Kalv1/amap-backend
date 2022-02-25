@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recette;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class ContributeurController extends Controller
