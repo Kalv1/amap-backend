@@ -19,6 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->get('recettes', 'RecetteController@getAll');
 $router->get('recette/{id:[0-9]+}', 'RecetteController@getRecette');
+$router->get('recette/{id:[0-9]+}/similaires', 'RecetteController@getRecettesSimilaires');
 
 $router->post('auth/login', 'AuthController@login');
 $router->post('auth/register', 'AuthController@register');
