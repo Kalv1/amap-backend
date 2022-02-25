@@ -37,6 +37,12 @@ class Recette extends Model
                     ->withPivot(['id_user','id_recette']);
     }
 
+    public function favs()
+    {
+        return $this->belongsToMany(User::class, 'favoris', 'id_recette', 'id_user')
+            ->withPivot(['id_user','id_recette']);
+    }
+
     public function ustensiles()
     {
         return $this->belongsToMany(Ustensile::class, 'ustensile_recette', 'id_recette', 'id_ustensile')

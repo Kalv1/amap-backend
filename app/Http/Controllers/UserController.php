@@ -216,6 +216,40 @@ class UserController extends Controller
             return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
         }
     }
+    //User's favorites methods
+
+    public function getFavRecette($idUser): JsonResponse
+    {
+        try {
+            $recettes = User::find($idUser)->recettesFavorites()->get();
+            return response()->json($recettes);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
+
+    public function favRecette($idUser, $idRecette): JsonResponse
+    {
+        try {
+            User::find($idUser)->recettesFavorites()->attach($idRecette);
+            return response()->json(['message' => 'Recette en favorite']);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
+
+    public function unfavRecette($idUser, $idRecette): JsonResponse
+    {
+        try {
+            User::find($idUser)->recettesFavorites()->detach($idRecette);
+            return response()->json(['message' => "Recette n'est en plus favorites"]);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
+        }
+    }
 
     // User's Recipes methods
     public function getUserRecettes($id): JsonResponse
