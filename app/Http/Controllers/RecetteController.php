@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produit;
+use App\Models\ProduitRecette;
 use App\Models\Recette;
 use App\Models\Ustensile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -149,5 +151,41 @@ class RecetteController extends Controller
             }
         }
         return response()->json(['message' => 'Ustensiles ajouté avec succes']);
+    }
+
+    public function getRecettesSimilaires(Request $req, $id): JsonResponse
+    {
+        $result = [];
+
+        $ingredientsRecette = ProduitRecette::where('id_recette', '=', $id)->get();
+
+        $prodsRecette = ProduitRecette::select('id_recette')->groupBy('id_recette')->get();
+        $nbActuel = count($ingredientsRecette);
+
+        while (count($result) < 6 && $nbActuel > 1) {
+            foreach ($prodsRecette as $prodRecette) {
+                if ($prodRecette->id_recette != $id) {
+                    $ingrRec = ProduitRecette::where('id_recette', '=', $prodRecette->id_recette)->get();
+                    $compteur = 0;
+                    $prodSimi = [];
+
+                    foreach ($ingrRec as $item) {
+                        foreach ($ingredientsRecette as $i) {
+                            if ($item->id_produit == $i->id_produit) {
+                                $compteur++;
+                                $prodSimi[] = Produit::find($item->id_produit);
+                            }
+                        }
+                    }
+
+                    if ($compteur === $nbActuel) {
+                        $result[] = ['recette' => Recette::find($prodRecette->id_recette), 'prodSimi' => $prodSimi];
+                    }
+                }
+            }
+            $nbActuel--;
+        }
+
+        return response()->json($result, 200);
     }
 }

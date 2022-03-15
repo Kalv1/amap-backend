@@ -19,6 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->get('recettes', 'RecetteController@getAll');
 $router->get('recette/{id:[0-9]+}', 'RecetteController@getRecette');
+$router->get('recette/{id:[0-9]+}/similaires', 'RecetteController@getRecettesSimilaires');
 
 $router->post('auth/login', 'AuthController@login');
 $router->post('auth/register', 'AuthController@register');
@@ -85,6 +86,7 @@ $router->get('ingredients', 'ProduitController@getAll');
 $router->get('panier/{id:[0-9]+}', 'PanierController@getAll');
 $router->post('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@addItem');
 $router->delete('panier/{id:[0-9]+}/{prod:[0-9]+}', 'PanierController@removeItem');
+$router->get('commentaires/{id:[0-9]+}', 'CommentaireController@getAllFromRecipe');
 
 $router->group([
 
@@ -171,3 +173,7 @@ $router->get('users/{idUser:[0-9]+}/liked', 'UserController@getLikedRecette');
 $router->post('users/{idUser:[0-9]+}/like/{idRecette:[0-9]+}', 'UserController@likeRecette');
 $router->delete('users/{idUser:[0-9]+}/dislike/{idRecette:[0-9]+}', 'UserController@dislikeRecette');
 
+// User's fav routes
+$router->get('users/{idUser:[0-9]+}/fav', 'UserController@getFavRecette');
+$router->post('users/{idUser:[0-9]+}/fav/{idRecette:[0-9]+}', 'UserController@FavRecette');
+$router->delete('users/{idUser:[0-9]+}/unfav/{idRecette:[0-9]+}', 'UserController@unfavRecette');
